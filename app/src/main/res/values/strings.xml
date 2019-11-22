@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">National Basketball Association</string>
+
+    <!--Strings for main player view-->
+    <string name="view_name">Name:</string>
+    <string name="view_position">Position:</string>
+    <string name="view_height">Height:</string>
+    <string name="view_weight">Weight:</string>
+    <string name="view_team_name">Team:</string>
+    <string name="view_team_conference">Conference:</string>
+
+    <!--Strings for player list view states-->
+    <string name="list_view_empty_header">No Results</string>
+    <string name="list_view_empty_subtitle">Try a different search</string>
+    <string name="list_view_error_header">Connection Error</string>
+    <string name="list_view_error_subtitle">Try again later or pull to refresh</string>
+    <string name="list_view_retry">Retry</string>
+    <string name="search_fragment_hint_string">Search for Player</string>
+    <string name="search_title">Search</string>
+</resources>

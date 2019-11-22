@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/playerCardView"
+    style="@style/Widget.MaterialComponents.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/mtrl_card_spacing"
+    android:layout_marginTop="@dimen/mtrl_card_spacing"
+    android:layout_marginEnd="@dimen/mtrl_card_spacing"
+    android:minHeight="@dimen/view_player_card_min_height"
+    tools:ignore="PrivateResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/playerConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="@dimen/view_player_card_padding">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/cardGuide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".6" />
+
+        <TextView
+            android:id="@+id/playerName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/view_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/playerNameText"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_player_name_start_margin"
+            app:layout_constraintBottom_toBottomOf="@id/playerName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/playerName"
+            app:layout_constraintTop_toTopOf="@id/playerName"
+            tools:text="LeBron James" />
+
+        <TextView
+            android:id="@+id/playerPosition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_player_top_margin"
+            android:text="@string/view_position"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/playerName" />
+
+        <TextView
+            android:id="@+id/playerPositionText"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_player_name_start_margin"
+            app:layout_constraintBottom_toBottomOf="@id/playerPosition"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/playerPosition"
+            app:layout_constraintTop_toTopOf="@id/playerPosition"
+            tools:text="F" />
+
+        <TextView
+            android:id="@+id/playerHeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_player_top_margin"
+            android:text="@string/view_height"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/playerPosition" />
+
+        <TextView
+            android:id="@+id/playerHeightText"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_player_name_start_margin"
+            app:layout_constraintBottom_toBottomOf="@id/playerHeight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/playerHeight"
+            app:layout_constraintTop_toTopOf="@id/playerHeight"
+            tools:text="6'8" />
+
+        <TextView
+            android:id="@+id/playerWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_player_top_margin"
+            android:text="@string/view_weight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/playerHeight" />
+
+        <TextView
+            android:id="@+id/playerWeightText"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_player_name_start_margin"
+            app:layout_constraintBottom_toBottomOf="@id/playerWeight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/playerWeight"
+            app:layout_constraintTop_toTopOf="@id/playerWeight"
+            tools:text="250 lbs" />
+
+        <TextView
+            android:id="@+id/playerTeam"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_player_top_margin"
+            android:text="@string/view_team_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/playerWeight" />
+
+        <TextView
+            android:id="@+id/playerTeamText"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_player_name_start_margin"
+            app:layout_constraintBottom_toBottomOf="@id/playerTeam"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/playerTeam"
+            app:layout_constraintTop_toTopOf="@id/playerTeam"
+            tools:text="Los Angeles Lakers" />
+
+        <TextView
+            android:id="@+id/playerConference"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/view_player_top_margin"
+            android:text="@string/view_team_conference"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/playerTeam" />
+
+        <TextView
+            android:id="@+id/playerConferenceText"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/view_player_name_start_margin"
+            app:layout_constraintBottom_toBottomOf="@id/playerConference"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/playerConference"
+            app:layout_constraintTop_toTopOf="@id/playerConference"
+            tools:text="West" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

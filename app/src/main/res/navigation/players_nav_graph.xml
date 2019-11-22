@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/players_nav_graph"
+    app:startDestination="@id/allPlayersFragment">
+
+    <fragment
+        android:id="@+id/allPlayersFragment"
+        android:name="com.tomas.nationalbasketballassociation.fragment.AllPlayersFragment"
+        android:label="AllPlayersFragment"
+        tools:layout="@layout/fragment_all_players">
+        <action
+            android:id="@+id/action_allPlayersFragment_to_searchPlayersFragment"
+            app:destination="@id/searchPlayersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchPlayersFragment"
+        android:name="com.tomas.nationalbasketballassociation.fragment.SearchPlayersFragment"
+        android:label="SearchPlayersFragment"
+        tools:layout="@layout/fragment_search_players" />
+</navigation>
