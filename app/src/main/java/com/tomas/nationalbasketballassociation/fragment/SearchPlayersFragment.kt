@@ -3,11 +3,20 @@ package com.tomas.nationalbasketballassociation.fragment
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tomas.nationalbasketballassociation.MainActivity
 import com.tomas.nationalbasketballassociation.R
+import com.tomas.nationalbasketballassociation.adapter.PlayerPagedListAdapter
+import com.tomas.nationalbasketballassociation.interfaces.PlayerListListener
+import com.tomas.nationalbasketballassociation.network.PlayerViewState
+import com.tomas.nationalbasketballassociation.view.PlayerListView.State.*
+import com.tomas.nationalbasketballassociation.viewmodel.SearchPlayerViewModel
 import kotlinx.android.synthetic.main.fragment_search_players.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SearchPlayersFragment : Fragment() {
+
+    private val searchPlayersViewModel: SearchPlayerViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -22,6 +31,39 @@ class SearchPlayersFragment : Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setHasOptionsMenu(true)
         }
+
+        val listener = object : PlayerListListener {
+            override fun onRefreshRequested() {
+                searchPlayersViewModel.invalidateData()
+            }
+
+            override fun onRetryRequested() {
+                searchPlayersViewModel.invalidateData()
+            }
+
+        }
+
+        searchPlayersListView.setPlayerListAdapter(PlayerPagedListAdapter(), listener)
+
+        searchPlayersViewModel.searchPlayerResult.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is PlayerViewState.Loading -> {
+                    searchPlayersListView.state = LOADING
+                }
+                is PlayerViewState.Loaded -> {
+                    searchPlayersListView.state = LOAD_WITH_DATA
+                }
+                is PlayerViewState.Players -> {
+                    searchPlayersListView.setData(it.players)
+                }
+                is PlayerViewState.Empty -> {
+                    searchPlayersListView.state = LOAD_EMPTY
+                }
+                is PlayerViewState.Error -> {
+                    searchPlayersListView.state = ERROR
+                }
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -1,10 +1,7 @@
 package com.tomas.nationalbasketballassociation.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.tomas.nationalbasketballassociation.interfaces.SearchPlayerContract
@@ -20,6 +17,9 @@ class SearchPlayerViewModel(application: Application) : AndroidViewModel(applica
     private var pagedList: LiveData<PagedList<Player>>? = null
     private val _searchPlayerResult = MutableLiveData<PlayerViewState>()
     private val dataSourceFactory: SearchPlayersDataSourceFactory by application.inject { parametersOf(this) }
+    private val editTextObserver = Observer<String> { observedText = it }
+    private var observedText: String? = null
+    val searchEditText = MutableLiveData<String>()
 
     private val searchDataSource: SearchPlayersDataSource?
         get() = pagedList?.value?.dataSource as? SearchPlayersDataSource
@@ -30,6 +30,8 @@ class SearchPlayerViewModel(application: Application) : AndroidViewModel(applica
                 .build()
 
         pagedList = LivePagedListBuilder(dataSourceFactory, config).build()
+
+        searchEditText.observeForever(editTextObserver)
     }
 
     fun invalidateData() = searchDataSource?.invalidate()
@@ -47,12 +49,11 @@ class SearchPlayerViewModel(application: Application) : AndroidViewModel(applica
 
     override fun onCleared() {
         super.onCleared()
+        searchEditText.removeObserver(editTextObserver)
         searchDataSource?.clearCoroutineJobs()
     }
 
-    override fun getSearchTerm(): String {
-        TODO("How do i get the search term from the fragment here?")
-    }
+    override fun getSearchTerm(): String = observedText.orEmpty()
 
     override fun setViewState(state: PlayerViewState) {
         _searchPlayerResult.postValue(state)
