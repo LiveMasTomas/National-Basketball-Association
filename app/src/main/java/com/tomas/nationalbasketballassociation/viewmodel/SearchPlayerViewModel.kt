@@ -1,10 +1,13 @@
 package com.tomas.nationalbasketballassociation.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.tomas.nationalbasketballassociation.interfaces.SearchPlayerContract
+import com.tomas.nationalbasketballassociation.interfaces.SearchContract
 import com.tomas.nationalbasketballassociation.model.Player
 import com.tomas.nationalbasketballassociation.network.PlayerViewState
 import com.tomas.nationalbasketballassociation.paging.SearchPlayersDataSource
@@ -12,32 +15,29 @@ import com.tomas.nationalbasketballassociation.paging.SearchPlayersDataSourceFac
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class SearchPlayerViewModel(application: Application) : AndroidViewModel(application), SearchPlayerContract {
+class SearchPlayerViewModel(application: Application) : AndroidViewModel(application), SearchContract {
 
     private var pagedList: LiveData<PagedList<Player>>? = null
-    private val _searchPlayerResult = MutableLiveData<PlayerViewState>()
-    private val dataSourceFactory: SearchPlayersDataSourceFactory by application.inject { parametersOf(this) }
-    private val editTextObserver = Observer<String> { observedText = it }
-    private var observedText: String? = null
-    val searchEditText = MutableLiveData<String>()
+    private val _searchApiResult = MutableLiveData<PlayerViewState>()
+    private val factory: SearchPlayersDataSourceFactory by application.inject { parametersOf(this) }
 
-    private val searchDataSource: SearchPlayersDataSource?
+    private val dataSource: SearchPlayersDataSource?
         get() = pagedList?.value?.dataSource as? SearchPlayersDataSource
+
+    var searchListener: (() -> String)? = null
 
     init {
         val config = PagedList.Config.Builder()
                 .setPageSize(PAGE_SIZE)
                 .build()
 
-        pagedList = LivePagedListBuilder(dataSourceFactory, config).build()
-
-        searchEditText.observeForever(editTextObserver)
+        pagedList = LivePagedListBuilder(factory, config).build()
     }
 
-    fun invalidateData() = searchDataSource?.invalidate()
+    fun invalidateData() = dataSource?.invalidate()
 
-    val searchPlayerResult = MediatorLiveData<PlayerViewState>().apply {
-        addSource(_searchPlayerResult) {
+    val searchPlayerResults = MediatorLiveData<PlayerViewState>().apply {
+        addSource(_searchApiResult) {
             value = it
         }
         pagedList?.let { liveData ->
@@ -47,16 +47,10 @@ class SearchPlayerViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        searchEditText.removeObserver(editTextObserver)
-        searchDataSource?.clearCoroutineJobs()
-    }
-
-    override fun getSearchTerm(): String = observedText.orEmpty()
+    override fun getSearchTerm(): String = searchListener?.invoke().orEmpty()
 
     override fun setViewState(state: PlayerViewState) {
-        _searchPlayerResult.postValue(state)
+        _searchApiResult.postValue(state)
     }
 
     companion object {

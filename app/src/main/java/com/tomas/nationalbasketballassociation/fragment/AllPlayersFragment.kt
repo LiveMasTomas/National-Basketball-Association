@@ -40,7 +40,7 @@ class AllPlayersFragment : Fragment() {
         }
 
         allPlayersFab.setOnClickListener {
-            findNavController().navigate(R.id.searchPlayersFragment)
+            findNavController().navigate(R.id.action_allPlayersFragment_to_searchPlayersFragment)
         }
 
         allPlayersListView.setPlayerListAdapter(PlayerPagedListAdapter(), listener)

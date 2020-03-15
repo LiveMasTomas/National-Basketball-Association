@@ -5,12 +5,13 @@ import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.tomas.nationalbasketballassociation.BuildConfig
 import com.tomas.nationalbasketballassociation.interfaces.PlayersContract
-import com.tomas.nationalbasketballassociation.interfaces.SearchPlayerContract
+import com.tomas.nationalbasketballassociation.interfaces.SearchContract
 import com.tomas.nationalbasketballassociation.network.NbaPlayerApi
 import com.tomas.nationalbasketballassociation.network.NbaPlayerWebService
 import com.tomas.nationalbasketballassociation.paging.AllPlayersDataSourceFactory
 import com.tomas.nationalbasketballassociation.paging.SearchPlayersDataSourceFactory
 import com.tomas.nationalbasketballassociation.viewmodel.AllPlayersViewModel
+import com.tomas.nationalbasketballassociation.viewmodel.SearchPlayerViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -23,11 +24,12 @@ val webServiceKoinModule = module {
 
 val dataSourceFactoryKoinModule = module {
     factory { (playerContract: PlayersContract) -> AllPlayersDataSourceFactory(get(), playerContract) }
-    factory { (contract: SearchPlayerContract) -> SearchPlayersDataSourceFactory(get(), contract) }
+    factory { (contract: SearchContract) -> SearchPlayersDataSourceFactory(get(), contract) }
 }
 
 val viewModelKoinModule = module {
     viewModel { AllPlayersViewModel(get()) }
+    viewModel { SearchPlayerViewModel(get()) }
 }
 
 val retroFitModule = module {

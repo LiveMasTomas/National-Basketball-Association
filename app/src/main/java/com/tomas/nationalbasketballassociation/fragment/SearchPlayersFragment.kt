@@ -45,7 +45,7 @@ class SearchPlayersFragment : Fragment() {
 
         searchPlayersListView.setPlayerListAdapter(PlayerPagedListAdapter(), listener)
 
-        searchPlayersViewModel.searchPlayerResult.observe(viewLifecycleOwner, Observer {
+        searchPlayersViewModel.searchPlayerResults.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is PlayerViewState.Loading -> {
                     searchPlayersListView.state = LOADING
@@ -69,5 +69,23 @@ class SearchPlayersFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.search, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                activity?.onBackPressed()
+                return true
+            }
+            R.id.search -> {
+                searchPlayersViewModel.searchListener = {
+                    //TODO: Grab user search term
+                    ""
+                }
+                searchPlayersViewModel.invalidateData()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
